@@ -16,7 +16,7 @@
 
 .popular hr{
     width: 200px;
-    height: 6px;
+    height: 0px;
     border: 4px solid #252525;
     border-radius: 10px;
 }
