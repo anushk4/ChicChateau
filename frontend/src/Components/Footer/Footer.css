@@ -38,6 +38,10 @@
     margin-bottom: 15px;
 }
 
+.footer-icons-container{
+    cursor: pointer;
+}
+
 .footer-copyright{
     display: flex;
     flex-direction: column;
