@@ -28,3 +28,8 @@
     transform: scale(1.05);
     transition: 0.6s;
 }
+
+.item-links{
+    text-decoration: none;
+    color: inherit;
+}

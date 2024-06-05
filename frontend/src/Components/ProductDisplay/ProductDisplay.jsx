@@ -37,11 +37,11 @@ export const ProductDisplay = (props) => {
                 </div>
             </div>
             <div className="productdisplay-right-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id sed itaque excepturi, aperiam et sunt quis magni quam iusto nemo incidunt saepe accusamus officia voluptate iste esse similique repudiandae animi vero optio vel error deleniti libero? Minima autem nisi id ducimus expedita nostrum labore ullam qui quas saepe? Voluptatum, blanditiis?
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, iusto perspiciatis dolorum corrupti hic quo accusamus praesentium eligendi enim id.
             </div>
             <div className="productdisplay-right-size">
                 <h1>Select Size</h1>
-                <div className="productdisplay-right-size">
+                <div className="productdisplay-right-sizes">
                     <div>XS</div>
                     <div>S</div>
                     <div>M</div>
@@ -50,7 +50,7 @@ export const ProductDisplay = (props) => {
                 </div>
             </div>
             <button>ADD TO CART</button>
-            <p className='productdisplay-right-category'><span>Category: </span>Women, T-Shirt, Crop Top</p>
+            <p className='productdisplay-right-category'><span>Category: </span>T-shirt, Tops, Tunics</p>
             <p className='productdisplay-right-category'><span>Tags: </span>Modern, Latest</p>
         </div>
     </div>
