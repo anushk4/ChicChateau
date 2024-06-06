@@ -61,7 +61,7 @@ let all_product = [
         category: "women",
     },
     {
-        id:3,
+        id:4,
         name: "Pure Cotton Long Sleeves Brand Logo Printed Sweatshirt",
         image: p4_img,
         new_price: 1034,
