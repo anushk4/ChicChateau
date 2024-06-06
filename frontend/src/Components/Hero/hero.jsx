@@ -15,7 +15,7 @@ export const Hero = () => {
             <div>
                 <div className="hero-hand-icon">
                     <p>new</p>
-                    <img src = {hand_icon} style={{height:'105px'}} alt = ""/>
+                    <img src = {hand_icon} alt = ""/>
                 </div>
                 <p>collections</p>
                 <p>for everyone</p>
@@ -24,7 +24,7 @@ export const Hero = () => {
                 <div>
                     Latest Collection
                 </div>
-                <img src = {arrow_icon} style = {{width:'70px'}} alt = "" />
+                <img src = {arrow_icon} alt = "" />
             </div>
         </div>
         <div className="hero-right">
