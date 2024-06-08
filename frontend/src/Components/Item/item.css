@@ -3,11 +3,12 @@
 }
 
 .item img{
-    width: 350px;
+    width: 300px;
 }
 
 .item p {
     margin: 6px 0px;
+    width: 300px;
 }
 
 .item-prices{
@@ -46,6 +47,9 @@
     .item img{
         width: 220px;
     }
+    .item p{
+        width: 220px;
+    }
     .item-price-old{
         font-size: 14px;
     }
@@ -62,6 +66,9 @@
     .item img{
         width: 170px;
     }
+    .item p{
+        width: 170px;
+    }
     .item-price-old{
         font-size: 13px;
     }
@@ -76,6 +83,9 @@
         font-size: 12px;
     }
     .item img{
+        width: 120px;
+    }
+    .item p{
         width: 120px;
     }
     .item-price-old{
