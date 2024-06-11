@@ -24,7 +24,7 @@ mongoose.connect(uri, {
     .catch(err => console.error('MongoDB connection error:', err));
 
 // API Creation
-app.get("/",(req, res)=>{
+app.get("/", (req, res) => {
     res.send("Express App is running")
 })
 
@@ -32,28 +32,28 @@ app.get("/",(req, res)=>{
 
 const storage = multer.diskStorage({
     destination: './upload/images',
-    filename: (req, file, cb)=>{
+    filename: (req, file, cb) => {
         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
     }
 })
 
-const upload = multer({storage:storage})
+const upload = multer({ storage: storage })
 
 // Creating upload endpoint for image
 app.use('/images', express.static('upload/images'))
 
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
-        success:1,
-        image_url:`http://localhost:${port}/images/${req.file.filename}`
+        success: 1,
+        image_url: `http://localhost:${port}/images/${req.file.filename}`
     })
 })
 
 // Schema for creating products
 
 const Product = mongoose.model("Product", {
-    id:{
-        type:Number,
+    id: {
+        type: Number,
         required: true
     },
     name: {
@@ -64,23 +64,23 @@ const Product = mongoose.model("Product", {
         type: String,
         required: true
     },
-    category:{
+    category: {
         type: String,
         required: true
     },
-    new_price:{
-        type:Number,
-        required:true
+    new_price: {
+        type: Number,
+        required: true
     },
     old_price: {
         type: Number,
         required: true
     },
-    date:{
+    date: {
         type: Date,
         default: Date.now()
     },
-    available:{
+    available: {
         type: Boolean,
         default: true
     }
@@ -89,11 +89,11 @@ const Product = mongoose.model("Product", {
 app.post('/addproduct', async (req, res) => {
     let products = await Product.find({});
     let id;
-    if (products.length > 0){
+    if (products.length > 0) {
         let last_product_array = products.slice(-1);
         let last_product = last_product_array[0]
         id = last_product.id + 1;
-    }else{
+    } else {
         id = 1;
     }
     const product = new Product({
@@ -117,10 +117,10 @@ app.post('/addproduct', async (req, res) => {
 
 //Creating API for deleting products
 app.post('/removeproduct', async (req, res) => {
-    await Product.findOneAndDelete({id: req.body.id});
+    await Product.findOneAndDelete({ id: req.body.id });
     console.log("Product removed");
     res.json({
-        success:true,
+        success: true,
         name: req.body.name
     })
 })
@@ -132,10 +132,81 @@ app.get('/allproducts', async (req, res) => {
     res.send(products)
 })
 
-app.listen(port,(error) => {
-    if (!error){
-        console.log("Server running on port: " + port);
+// Schema creating for user model
+const Users = mongoose.model('Users', {
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    cartData: {
+        type: Object
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
+})
+
+// Creating Endpoint for registering the user
+app.post('/signup', async (req, res) => {
+    let check = await Users.findOne({ email: req.body.email });
+    if (check) {
+        return res.status(400).json({ success: false, error: "existing user found with same email id" })
+    }
+    let cart = {};
+    for (let i = 0; i < 300; i++) {
+        cart[i] = 0;
+    }
+    const user = new Users({
+        name: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        cartData: cart
+    })
+    await user.save();
+    const data = {
+        user: {
+            id: user.id
+        }
+    }
+    const token = jwt.sign(data, 'secret_ecom');
+    res.json({success:true, token});
+})
+
+// creating endpoint for user login
+app.post('/login', async (req, res) => {
+    let user = await Users.findOne({email:req.body.email});
+    if (user){
+        const passCompare = req.body.password === user.password;
+        if (passCompare){
+            const data = {
+                user:{
+                    id:user.id
+                }
+            }
+            const token = jwt.sign(data, 'secret_ecom');
+            res.json({success:true, token});
+        }else{
+            res.json({success:false, error:"wrong password"});
+        }
     }else{
+        res.json({success:false, error:"User does not exist"})
+    }
+})
+
+app.listen(port, (error) => {
+    if (!error) {
+        console.log("Server running on port: " + port);
+    } else {
         console.log("Error: " + error);
     }
 });
