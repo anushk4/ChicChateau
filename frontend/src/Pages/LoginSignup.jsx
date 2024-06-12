@@ -10,10 +10,24 @@ export const LoginSignup = () => {
   })
 
   const changeHandler = (e) => {
-    setFormData({...formData, [e.target.name]:[e.target.value]})
+    setFormData({...formData, [e.target.name]:e.target.value})
   }
   const login = async () => {
-    
+    let responseData;
+    await fetch('http://localhost:4000/login', {
+      method:'POST',
+      headers:{
+        Accept:'application/form-data',
+        'Content-type':'application/json',
+      },
+      body:JSON.stringify(formData)
+    }).then((resp) => resp.json()).then((data) => responseData = data)
+    if (responseData.success){
+      localStorage.setItem('auth-token', responseData.token);
+      window.location.replace("/");
+    }else{
+      alert(responseData.errors)
+    }
   }
   const signup = async () => {
     let responseData;
@@ -28,6 +42,8 @@ export const LoginSignup = () => {
     if (responseData.success){
       localStorage.setItem('auth-token', responseData.token);
       window.location.replace("/");
+    }else{
+      alert(responseData.errors)
     }
   }
   return (
@@ -46,7 +62,7 @@ export const LoginSignup = () => {
           Don't have an account?
           <span onClick={() => {setState("Sign Up")}}> Sign Up</span></p>}
         <div className="loginsignup-agree">
-          <input type="checkbox" name='' id='' />
+          <input type="checkbox" name='' id=''/>
           <p>By continuing, I agree to the terms of use & privacy policy</p>
         </div>
       </div>
@@ -55,5 +71,3 @@ export const LoginSignup = () => {
 }
 
 export default LoginSignup;
-
-// https://youtu.be/y99YgaQjgx4?si=oEgd88zOR88XcdfE&t=29215

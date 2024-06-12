@@ -136,16 +136,13 @@ app.get('/allproducts', async (req, res) => {
 const Users = mongoose.model('Users', {
     name: {
         type: String,
-        required: true
     },
     email: {
         type: String,
         unique: true,
-        required: true
     },
     password: {
         type: String,
-        required: true,
     },
     cartData: {
         type: Object
@@ -160,7 +157,7 @@ const Users = mongoose.model('Users', {
 app.post('/signup', async (req, res) => {
     let check = await Users.findOne({ email: req.body.email });
     if (check) {
-        return res.status(400).json({ success: false, error: "existing user found with same email id" })
+        return res.status(400).json({ success: false, errors: "existing user found with same email id" })
     }
     let cart = {};
     for (let i = 0; i < 300; i++) {
@@ -196,10 +193,10 @@ app.post('/login', async (req, res) => {
             const token = jwt.sign(data, 'secret_ecom');
             res.json({success:true, token});
         }else{
-            res.json({success:false, error:"wrong password"});
+            res.json({success:false, errors:"wrong password"});
         }
     }else{
-        res.json({success:false, error:"User does not exist"})
+        res.json({success:false, errors:"User does not exist"})
     }
 })
 

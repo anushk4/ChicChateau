@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import './Navbar.css'
 
 import logo from '../Assets/logo.png'
@@ -11,11 +11,16 @@ import nav_dropdown from '../Assets/dropdown_icon.png'
 export const Navbar = () => {
     const [menu,setMenu] = useState("shop");
     const {getTotalCartItems} = useContext(ShopContext);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const menuRef = useRef();
     const dropdown_toggle = (e) => {
         menuRef.current.classList.toggle('nav-menu-visible');
         e.target.classList.toggle('open');
     }
+    useEffect(() => {
+        const token = localStorage.getItem('auth-token');
+        setIsLoggedIn(!!token);
+    }, [])
   return (
     <div className='navbar'>
         <div className="nav-logo">
@@ -32,7 +37,9 @@ export const Navbar = () => {
             <li onClick={()=>{setMenu("kids")}}><Link to='/kids' style={{textDecoration: 'none'}}>Kids</Link>{menu==="kids" ?<hr/> : <></>}</li>
         </ul>
         <div className="nav-login-cart">
-            <Link to = '/login'><button onClick={()=>{setMenu("login")}}>Login</button></Link>
+            {isLoggedIn ? 
+            <button onClick={() => {localStorage.removeItem('auth-token'); window.location.replace('/')}}>Logout</button> :
+            <Link to = '/login'><button onClick={()=>{setMenu("login")}}>Login</button></Link>}
             <Link to = '/cart'><img src = {cart} onClick={()=>{setMenu("cart")}} alt = "" style={{ width: '30px', height: '30px' }}/></Link>
             <div className="nav-cart-count">{getTotalCartItems()}</div>
         </div>
