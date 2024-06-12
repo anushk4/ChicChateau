@@ -36,7 +36,7 @@
     }
     .newcollections hr{
         width: 160px;
-        height: 4px;
+        height: 0px;
     }
     .collections{
         gap: 30px;
@@ -50,7 +50,7 @@
     }
     .newcollections hr{
         width: 120px;
-        height: 3px;
+        height: 0px;
     }
     .collections{
         gap: 30px;
